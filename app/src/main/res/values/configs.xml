@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Urls -->
+    <string name="api_url">https://recruitment-task.futuremind.dev</string>
+
+    <string name="config_network_header_auth_token">X-Auth-Token</string>
+
+    <!-- Network -->
+    <integer name="config_network_cache_size_mb">64</integer>
+
+    <!-- Database -->
+    <string name="config_database_name">movies.db</string>
+
+</resources>

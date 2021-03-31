@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.pbartkowiak.moviebrowser.ui.adapter.MovieItemViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_small"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{(v) -> viewModel.onMovieClick()}">
+
+        <TextView
+            android:id="@+id/tvMovieTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/item_max_width"
+            android:paddingTop="@dimen/space_medium"
+            android:text="@{@string/activity_movie_details_title_formatter(viewModel.title.get())}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_medium_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Test movie" />
+
+        <TextView
+            android:id="@+id/tvMovieDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/item_max_width"
+            android:paddingBottom="@dimen/space_medium"
+            android:text="@{viewModel.modificationDate.get()}"
+            android:textSize="@dimen/text_small_size"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
+            tools:text="12-05-2006" />
+
+        <ImageView
+            android:id="@+id/ivMovieImage"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_margin="@dimen/space_small"
+            android:contentDescription="@string/item_movie_image_description"
+            android:padding="@dimen/space_medium"
+            android:scaleType="centerCrop"
+            app:imageSrc="@{viewModel.image.get()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieDate" />
+
+        <TextView
+            android:id="@+id/tvMovieDescriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_details_description_label"
+            android:textSize="@dimen/text_medium_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivMovieImage"
+            tools:text="Description:" />
+
+        <TextView
+            android:id="@+id/tvMovieDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.description.get()}"
+            android:textSize="@dimen/text_medium_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieDescriptionLabel"
+            tools:text="Test movie description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
