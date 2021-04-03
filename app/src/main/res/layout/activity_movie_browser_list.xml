@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="com.pbartkowiak.moviebrowser.core.data.ResourceStatus" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.pbartkowiak.moviebrowser.ui.MovieListViewModel" />
@@ -13,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/movie_list_background"
         android:clipChildren="false"
         android:clipToPadding="false">
 
@@ -24,19 +29,25 @@
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/movie_list_backgroud"
             android:layout_margin="@dimen/space_small"
+            android:background="@color/movie_list_card_view_backgroud"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <com.pbartkowiak.moviebrowser.ui.adapter.MovieCompoundRecyclerView
+            <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                app:callback="@{viewModel}"
-                app:modelList="@{viewModel.movieList}" />
+                android:visibility="@{viewModel.loadingStatus.get() == ResourceStatus.SUCCESS ? View.VISIBLE : View.GONE}"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <include
+                    layout="@layout/item_list"
+                    app:viewModel="@{viewModel}" />
+
+            </FrameLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -44,13 +55,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{viewModel.errorText.get()}"
+            android:text="@{viewModel.textError.get()}"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_medium_size"
-            android:visibility="@{viewModel.emptyListOrErrorTextVisibility}"
+            android:visibility="@{viewModel.movieList.empty &amp;&amp; viewModel.loadingStatus.get() == ResourceStatus.SUCCESS || viewModel.loadingStatus.get() == ResourceStatus.ERROR ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/progressbar_size"
+            android:layout_height="@dimen/progressbar_size"
+            android:visibility="@{viewModel.loadingStatus.get() == ResourceStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/swipeRefresh" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

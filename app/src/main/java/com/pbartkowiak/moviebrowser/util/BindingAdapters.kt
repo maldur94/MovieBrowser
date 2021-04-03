@@ -4,6 +4,7 @@ import android.webkit.WebView
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.ItemCallback
 
@@ -20,6 +21,7 @@ fun <I> CompoundRecyclerView<I>.setRecyclerViewCallback(callback: ItemCallback<I
 @BindingAdapter("imageSrc")
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
+        .setDefaultRequestOptions(RequestOptions().useAnimationPool(true))
         .load(url)
         .error(R.mipmap.ic_image_not_found)
         .into(this)

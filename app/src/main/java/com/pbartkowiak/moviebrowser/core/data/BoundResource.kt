@@ -76,11 +76,12 @@ abstract class BoundResource<ResultType, RequestType> @MainThread constructor(
             result.removeSource(apiSource)
 
             when (response) {
-                is ApiSuccessResponse -> AppExecutors.diskIo().execute {
+                is ApiSuccessResponse ->
+                    appExecutors.diskIo().execute {
                         val fetchData = onFetchSucceed(response)
                         saveFetchCallResult(fetchData, getValue())
 
-                        AppExecutors.mainThread().execute {
+                        appExecutors.mainThread().execute {
                             // Request a new live data; otherwise it will return last cached value,
                             // which may not be updated with latest results received from network.
                             val newDbSource = loadFromDb()
@@ -90,7 +91,7 @@ abstract class BoundResource<ResultType, RequestType> @MainThread constructor(
                             }
                         }
                     }
-                is ApiEmptyResponse -> AppExecutors.mainThread().execute {
+                is ApiEmptyResponse -> appExecutors.mainThread().execute {
                     // Reload from db.
                     val newDbSource = loadFromDb()
                     result.addSource(newDbSource) { dbData ->
@@ -98,7 +99,7 @@ abstract class BoundResource<ResultType, RequestType> @MainThread constructor(
                         setValue(Resource.success(dbData))
                     }
                 }
-                is ApiErrorResponse -> AppExecutors.mainThread().execute {
+                is ApiErrorResponse -> appExecutors.mainThread().execute {
                     setValue(Resource.error(response.error, null))
                 }
             }
@@ -110,6 +111,7 @@ abstract class BoundResource<ResultType, RequestType> @MainThread constructor(
         @WorkerThread
         fun <T> syncDbData(dao: BaseDao<T>, oldDbData: T?, newDbData: T?) {
             oldDbData?.takeIf { newDbData == null }?.let { dbData -> dao.delete(dbData) }
+
             newDbData?.let { dbData -> dao.insert(dbData) }
         }
 

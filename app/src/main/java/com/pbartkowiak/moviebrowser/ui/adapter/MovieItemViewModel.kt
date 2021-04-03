@@ -9,7 +9,7 @@ class MovieItemViewModel(private var callback: ItemCallback<Movie>) {
     val title = ObservableString()
     val description = ObservableString()
     val modificationDate = ObservableString()
-    val image = ObservableString()
+    val imageUrl = ObservableString()
 
     var movie: Movie? = null
 
@@ -22,6 +22,6 @@ class MovieItemViewModel(private var callback: ItemCallback<Movie>) {
         title.set(movie.title)
         description.set(movie.description)
         modificationDate.set(movie.modificationDate)
-        image.set(movie.image_url)
+        imageUrl.set(movie.imageUrl)
     }
 }

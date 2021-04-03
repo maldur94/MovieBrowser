@@ -2,6 +2,7 @@ package com.pbartkowiak.moviebrowser.core
 
 import android.content.Context
 import com.pbartkowiak.moviebrowser.R
+import com.pbartkowiak.moviebrowser.data.source.MovieService
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,6 +15,8 @@ const val API_PAGE = 0L
 const val API_DATA_SIZE = 1000L
 
 class NetworkManager(private val context: Context) {
+
+    fun provideMovieService() = retrofit().create(MovieService::class.java)
 
     fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(context.getString(R.string.api_url))
