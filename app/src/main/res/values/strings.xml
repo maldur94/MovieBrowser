@@ -7,13 +7,11 @@
     <string name="activity_movie_details_title">Movie details</string>
     <string name="activity_movie_details_title_formatter">"%1$s"</string>
 
-    <string name="item_movie_image_description">Movie image</string>
-
     <string name="activity_details_description_label">Description:</string>
 
-    <string name="no_internet_connection_error">No internet connection.</string>
-    <string name="no_internet_connection_dialog_title">No internet connection</string>
-    <string name="no_internet_connection_dialog_message">Make sure you have wifi or mobile data enabled.</string>
-    <string name="no_internet_connection_dialog_button_text">Close</string>
+    <string name="item_movie_image_description">Movie image</string>
+
+    <string name="connection_error_no_internet">No internet connection.</string>
+    <string name="connection_error_dialog_title">Connection error</string>
 
 </resources>

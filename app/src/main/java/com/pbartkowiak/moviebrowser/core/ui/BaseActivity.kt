@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.pbartkowiak.moviebrowser.core.MovieListViewModelFactory
+import com.pbartkowiak.moviebrowser.ui.MovieMicroService
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -15,8 +16,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun <T : ViewModel> getViewModel(
         viewModelClass: Class<T>,
-        resources: Resources
-    ) = ViewModelProvider(this, MovieListViewModelFactory(resources)).get(viewModelClass)
+        resources: Resources,
+        microService: MovieMicroService
+    ) = ViewModelProvider(this, MovieListViewModelFactory(resources, microService))
+        .get(viewModelClass)
 
     protected fun <T : ViewModel> getViewModel(
         viewModelClass: Class<T>

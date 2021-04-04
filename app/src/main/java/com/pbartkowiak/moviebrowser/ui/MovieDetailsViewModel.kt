@@ -1,10 +1,10 @@
 package com.pbartkowiak.moviebrowser.ui
 
-import com.pbartkowiak.moviebrowser.core.ui.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.pbartkowiak.moviebrowser.util.ObservableString
 
 
-class MovieDetailsViewModel : BaseViewModel() {
+class MovieDetailsViewModel : ViewModel() {
 
     val urlAddress = ObservableString()
 

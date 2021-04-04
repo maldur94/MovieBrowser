@@ -16,11 +16,12 @@ const val API_DATA_SIZE = 1000L
 
 class NetworkManager(private val context: Context) {
 
-    fun provideMovieService() = retrofit().create(MovieService::class.java)
+    fun provideMovieService(): MovieService = retrofit().create(MovieService::class.java)
 
-    fun retrofit(): Retrofit = Retrofit.Builder()
+    private fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(context.getString(R.string.api_url))
         .client(initOkHttpClient())
+        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -10,14 +10,12 @@ import com.pbartkowiak.moviebrowser.util.BaseListAdapter
 
 class MovieListAdapter : BaseListAdapter<Movie, MovieViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ItemMovieBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
-        ).run { return MovieViewHolder(this) }
-    }
+        ).run { MovieViewHolder(this) }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(items[position], callback)

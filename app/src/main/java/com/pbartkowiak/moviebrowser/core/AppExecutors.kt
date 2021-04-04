@@ -5,9 +5,6 @@ import android.os.Looper
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-/**
- * Global executor pools for the whole application.
- */
 object AppExecutors {
 
     private val diskIo: Executor = Executors.newSingleThreadExecutor()

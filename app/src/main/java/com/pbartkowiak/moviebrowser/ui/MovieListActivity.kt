@@ -20,7 +20,12 @@ class MovieListActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(MovieListViewModel::class.java, resources)
+        val database = DatabaseBuilder.build(this)
+        val movieDao = database.moviesDao()
+        val repository =
+            MovieRepository(AppExecutors, NetworkManager(this).provideMovieService(), movieDao)
+        val microService = MovieMicroService(repository)
+        viewModel = getViewModel(MovieListViewModel::class.java, resources, microService)
         ActivityMovieBrowserListBinding.inflate(layoutInflater).apply {
             lifecycleOwner = this@MovieListActivity
             viewModel = this@MovieListActivity.viewModel
@@ -35,25 +40,18 @@ class MovieListActivity : BaseActivity() {
         binding: ActivityMovieBrowserListBinding,
         viewModel: MovieListViewModel
     ) {
-        val context = this
-        val database = DatabaseBuilder.build(this)
-        val movieDao = database.moviesDao
-        val repository =
-            MovieRepository(AppExecutors, NetworkManager(context).provideMovieService(), movieDao)
         viewModel.run {
             binding.swipeRefresh.setOnRefreshListener {
                 binding.swipeRefresh.isRefreshing = false
-                refreshMovies(repository)
+                refreshMovies()
             }
-            callForMovies(repository)
-            refreshMovies.observe(context, {
-                callForMovies(repository)
+            refreshMovies.observe(this@MovieListActivity, {
+                callForMovies()
             })
-            movies.observe(context, { movies ->
-                onMoviesDownloaded(movies, database)
+            microService.movies.observe(this@MovieListActivity, { movies ->
+                onMoviesDownloaded(movies)
             })
-            proceedMovieChosen.observe(context, { result ->
-
+            proceedMovieChosen.observe(this@MovieListActivity, { result ->
                 if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
                     val fragment = MovieDetailsFragment.buildFragment(result.peek())
                     supportFragmentManager
@@ -61,18 +59,26 @@ class MovieListActivity : BaseActivity() {
                         .replace(R.id.item_detail_container, fragment)
                         .commit()
                 } else {
-                    startActivity(MovieDetailsActivity.buildIntent(context, result.peek()))
+                    startActivity(
+                        MovieDetailsActivity.buildIntent(
+                            this@MovieListActivity,
+                            result.peek()
+                        )
+                    )
                 }
             })
-            showInternetConnectionErrorDialog.observe(context, {
+            showInternetConnectionErrorDialog.observe(this@MovieListActivity, {
                 it.getContentIfNotHandled()?.let { event ->
-                    AlertDialog.Builder(context)
-                        .setIcon(ContextCompat.getDrawable(context, event.peek1()))
-                        .setTitle(getString(event.peek2()))
-                        .setMessage(getString(event.peek3()))
-                        .setPositiveButton(getString(event.peek4())) { _: DialogInterface, _: Int ->
-                            event.peek5()
-                        }
+                    AlertDialog.Builder(this@MovieListActivity)
+                        .setIcon(
+                            ContextCompat.getDrawable(
+                                this@MovieListActivity,
+                                R.drawable.ic_fa_exclamation_triangle
+                            )
+                        )
+                        .setTitle(getString(event.peek1()))
+                        .setMessage(event.peek2())
+                        .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int -> }
                         .show()
                 }
             })

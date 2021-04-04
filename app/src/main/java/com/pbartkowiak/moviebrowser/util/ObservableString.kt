@@ -2,6 +2,7 @@ package com.pbartkowiak.moviebrowser.util
 
 import androidx.databinding.BaseObservable
 
+@Suppress("unused")
 class ObservableString : BaseObservable {
 
     private var value: String? = null

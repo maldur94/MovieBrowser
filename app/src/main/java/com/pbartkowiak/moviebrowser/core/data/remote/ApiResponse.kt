@@ -2,16 +2,12 @@ package com.pbartkowiak.moviebrowser.core.data.remote
 
 import retrofit2.Response
 
-/**
- * Common class used by API responses.
- *
- * @param <T> the type of the response object
- */
-@Suppress("unused")
+private const val UNKNOWN_ERROR = "Unknown error"
+
 sealed class ApiResponse<T> {
 
     companion object {
-        fun <T> create(error: Throwable) = ApiErrorResponse<T>(error.message ?: "Unknown error")
+        fun <T> create(error: Throwable) = ApiErrorResponse<T>(error.message ?: UNKNOWN_ERROR)
 
         fun <T> create(response: Response<T>) =
             if (response.isSuccessful) {
@@ -24,7 +20,7 @@ sealed class ApiResponse<T> {
             val message = response.errorBody()?.string()
             val errorMsg = if (message.isNullOrEmpty()) response.message() else message
 
-            return ApiErrorResponse(errorMsg ?: "Unknown error")
+            return ApiErrorResponse(errorMsg ?: UNKNOWN_ERROR)
         }
 
         private fun <T> createSuccessResponse(response: Response<T>): ApiResponse<T> {
@@ -39,17 +35,8 @@ sealed class ApiResponse<T> {
     }
 }
 
-/**
- * Separate class to handle HTTP 204 status.
- */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 
-/**
- * Successful response from the API.
- */
 data class ApiSuccessResponse<T>(val body: T) : ApiResponse<T>()
 
-/**
- * Error response from the API.
- */
 data class ApiErrorResponse<T>(val error: String) : ApiResponse<T>()

@@ -14,7 +14,7 @@ data class Movie(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "modificationDate") val modificationDate: String,
     @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "imageUrl") val imageUrl: String
+    @ColumnInfo(name = "imageUrl") val imageUrl: String?
 ) : HasItemId<Int>, Parcelable {
     override fun getItemId() = orderId
 }

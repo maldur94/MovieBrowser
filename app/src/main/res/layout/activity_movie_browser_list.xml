@@ -40,7 +40,7 @@
                 android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="@{viewModel.loadingStatus.get() == ResourceStatus.SUCCESS ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.loadingStatus == ResourceStatus.SUCCESS ? View.VISIBLE : View.GONE}"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <include
@@ -55,10 +55,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{viewModel.textError.get()}"
+            android:text="@string/activity_movie_browser_empty_list_message"
             android:textColor="@color/white"
             android:textSize="@dimen/text_medium_size"
-            android:visibility="@{viewModel.movieList.empty &amp;&amp; viewModel.loadingStatus.get() == ResourceStatus.SUCCESS || viewModel.loadingStatus.get() == ResourceStatus.ERROR ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.movieList.empty &amp;&amp; viewModel.loadingStatus == ResourceStatus.SUCCESS || viewModel.loadingStatus == ResourceStatus.ERROR ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
             android:id="@+id/progressBar"
             android:layout_width="@dimen/progressbar_size"
             android:layout_height="@dimen/progressbar_size"
-            android:visibility="@{viewModel.loadingStatus.get() == ResourceStatus.LOADING ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.loadingStatus == ResourceStatus.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
