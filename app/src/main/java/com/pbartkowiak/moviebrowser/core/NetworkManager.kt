@@ -19,7 +19,7 @@ class NetworkManager(private val context: Context) {
     fun provideMovieService(): MovieService = retrofit().create(MovieService::class.java)
 
     private fun retrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(context.getString(R.string.api_url))
+        .baseUrl(context.getString(R.string.config_network_api_url))
         .client(initOkHttpClient())
         .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())

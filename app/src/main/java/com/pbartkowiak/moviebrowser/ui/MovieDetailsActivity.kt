@@ -7,7 +7,7 @@ import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.ui.BaseActivity
 import com.pbartkowiak.moviebrowser.databinding.ActivityMovieDetailsBinding
 
-const val MOVIE_IMAGE_URL_ID_KEY_EXTRA = "movie_image_url_id_key_extra"
+const val WEBSITE_URL_ID_KEY_EXTRA = "website_url_id_key_extra"
 
 class MovieDetailsActivity : BaseActivity() {
 
@@ -16,31 +16,32 @@ class MovieDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel(MovieDetailsViewModel::class.java)
+        viewModel.setupDetailView(intent.extras!!.getString(WEBSITE_URL_ID_KEY_EXTRA))
         ActivityMovieDetailsBinding.inflate(layoutInflater).apply {
             lifecycleOwner = this@MovieDetailsActivity
             viewModel = this@MovieDetailsActivity.viewModel
             setContentView(root)
             setSupportActionBar(findViewById(R.id.toolbar))
             supportActionBar?.run { setDisplayHomeAsUpEnabled(true) }
-            this@MovieDetailsActivity.viewModel.setupDetailView(
-                intent.extras!!.getString(MOVIE_IMAGE_URL_ID_KEY_EXTRA)
-            )
         }
+        attachFragment(savedInstanceState)
+    }
 
-//        if (savedInstanceState == null) {
-//            val fragment = MovieDetailsFragment.buildFragment(viewModel.imageUrl.get())
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.item_detail_container, fragment)
-//                .commit()
-//        }
+    private fun attachFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            val fragment = MovieDetailsFragment.buildFragment(viewModel.websiteUrl.get())
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.item_detail_container, fragment)
+                .commit()
+        }
     }
 
     companion object {
-        fun buildIntent(context: Context, imageUrl: String) =
+        fun buildIntent(context: Context, websiteUrl: String) =
             Intent(context, MovieDetailsActivity::class.java).apply {
                 val bundle = Bundle()
-                bundle.putString(MOVIE_IMAGE_URL_ID_KEY_EXTRA, imageUrl)
+                bundle.putString(WEBSITE_URL_ID_KEY_EXTRA, websiteUrl)
                 putExtras(bundle)
             }
     }

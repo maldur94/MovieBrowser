@@ -1,14 +1,16 @@
 package com.pbartkowiak.moviebrowser.ui
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import com.pbartkowiak.moviebrowser.util.ObservableString
 
 
 class MovieDetailsViewModel : ViewModel() {
 
-    val urlAddress = ObservableString()
+    val websiteUrl = ObservableString()
+    val loadingStatus = ObservableBoolean()
 
-    fun setupDetailView(urlAddress: String?) {
-        this.urlAddress.set(urlAddress)
+    fun setupDetailView(websiteUrl: String?) {
+        this.websiteUrl.set(websiteUrl)
     }
 }

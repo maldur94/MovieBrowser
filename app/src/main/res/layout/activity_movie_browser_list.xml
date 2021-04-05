@@ -17,24 +17,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/movie_list_background"
+        android:background="@color/white"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/space_small"
-            android:background="@color/movie_list_card_view_backgroud"
+            android:background="@color/movie_list_card_view_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -59,10 +69,10 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_medium_size"
             android:visibility="@{viewModel.movieList.empty &amp;&amp; viewModel.loadingStatus == ResourceStatus.SUCCESS || viewModel.loadingStatus == ResourceStatus.ERROR ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/swipeRefresh"
+            app:layout_constraintEnd_toEndOf="@+id/swipeRefresh"
+            app:layout_constraintStart_toStartOf="@+id/swipeRefresh"
+            app:layout_constraintTop_toTopOf="@+id/swipeRefresh" />
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -13,7 +13,6 @@ import com.pbartkowiak.moviebrowser.core.ui.BaseActivity
 import com.pbartkowiak.moviebrowser.data.repository.MovieRepository
 import com.pbartkowiak.moviebrowser.databinding.ActivityMovieBrowserListBinding
 
-
 class MovieListActivity : BaseActivity() {
 
     private lateinit var viewModel: MovieListViewModel
@@ -51,20 +50,22 @@ class MovieListActivity : BaseActivity() {
             microService.movies.observe(this@MovieListActivity, { movies ->
                 onMoviesDownloaded(movies)
             })
-            proceedMovieChosen.observe(this@MovieListActivity, { result ->
-                if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
-                    val fragment = MovieDetailsFragment.buildFragment(result.peek())
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit()
-                } else {
-                    startActivity(
-                        MovieDetailsActivity.buildIntent(
-                            this@MovieListActivity,
-                            result.peek()
+            proceedMovieChosen.observe(this@MovieListActivity, { event ->
+                event.getContentIfNotHandled().let {
+                    if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
+                        val fragment = MovieDetailsFragment.buildFragment(event.peek())
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.item_detail_container, fragment)
+                            .commit()
+                    } else {
+                        startActivity(
+                            MovieDetailsActivity.buildIntent(
+                                this@MovieListActivity,
+                                event.peek()
+                            )
                         )
-                    )
+                    }
                 }
             })
             showInternetConnectionErrorDialog.observe(this@MovieListActivity, {

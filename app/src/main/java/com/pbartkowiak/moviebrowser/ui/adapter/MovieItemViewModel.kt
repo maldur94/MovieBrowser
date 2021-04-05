@@ -22,6 +22,6 @@ class MovieItemViewModel(private var callback: ItemCallback<Movie>) {
         title.set(movie.title)
         description.set(movie.description)
         modificationDate.set(movie.modificationDate)
-        imageUrl.set(movie.imageUrl)
+        imageUrl.set(movie.image_url)
     }
 }

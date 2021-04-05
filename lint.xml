@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="GoogleAppIndexWarning" severity="ignore" />
+    <issue id="InflateParams" severity="ignore" />
+    <issue id="DuplicateIncludedIds" severity="ignore" />
+    <issue id="Typos" severity="ignore" />
+    <issue id="PluralsCandidate" severity="ignore" />
+    <issue id="VectorPath" severity="ignore" />
+    <issue id="UnusedResources" severity="ignore" />
+    <issue id="IconMissingDensityFolder" severity="ignore" />
+    <issue id="ClickableViewAccessibility" severity="ignore" />
+    <issue id="RtlSymmetry" severity="ignore" />
+    <issue id="ObsoleteLintCustomCheck" severity="ignore" />
+    <issue id="TextViewEdits" severity="ignore" />
+
+    <issue id="InvalidPackage" severity="error">
+        <ignore regexp="okio.*jar" />
+        <ignore regexp="retrofit.*jar" />
+        <ignore regexp="ch.qos.logback.core.net.*" />
+    </issue>
+
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/values/colors.xml" />
+    </issue>
+</lint>

@@ -1,10 +1,11 @@
 package com.pbartkowiak.moviebrowser.util
 
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.ItemCallback
 
@@ -20,14 +21,21 @@ fun <I> CompoundRecyclerView<I>.setRecyclerViewCallback(callback: ItemCallback<I
 
 @BindingAdapter("imageSrc")
 fun ImageView.loadImage(url: String) {
+    val progressBar = CircularProgressDrawable(context)
+    progressBar.strokeWidth = 5f
+    progressBar.centerRadius = 30f
+    progressBar.setColorSchemeColors(context.getColor(R.color.white))
+    progressBar.start()
+
     Glide.with(context)
-        .setDefaultRequestOptions(RequestOptions().useAnimationPool(true))
         .load(url)
-        .error(R.mipmap.ic_image_not_found)
+        .placeholder(progressBar)
+        .error(R.mipmap.ic_no_image_foreground)
         .into(this)
 }
 
 @BindingAdapter("webUrl")
 fun WebView.loadWeb(url: String) {
-    this.loadUrl(url)
+    loadUrl(url)
+    webViewClient = WebViewClient()
 }

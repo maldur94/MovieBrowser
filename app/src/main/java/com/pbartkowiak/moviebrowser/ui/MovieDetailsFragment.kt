@@ -9,10 +9,12 @@ import com.pbartkowiak.moviebrowser.databinding.FragmentMovieDetailsBinding
 
 class MovieDetailsFragment : BaseFragment() {
 
+    private lateinit var viewModel: MovieDetailsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = getViewModel(MovieDetailsViewModel::class.java)
-        viewModel.setupDetailView(arguments!!.getString(MOVIE_IMAGE_URL_ID_KEY_EXTRA))
+        viewModel = getViewModel(MovieDetailsViewModel::class.java)
+        viewModel.setupDetailView(arguments!!.getString(WEBSITE_URL_ID_KEY_EXTRA))
     }
 
     override fun onCreateView(
@@ -20,17 +22,17 @@ class MovieDetailsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        FragmentMovieDetailsBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@MovieDetailsFragment
-            return root
-        }
+        val binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     companion object {
-        fun buildFragment(imageUrl: String) =
+        fun buildFragment(websiteUrl: String) =
             MovieDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(MOVIE_IMAGE_URL_ID_KEY_EXTRA, imageUrl)
+                    putString(WEBSITE_URL_ID_KEY_EXTRA, websiteUrl)
                 }
             }
     }

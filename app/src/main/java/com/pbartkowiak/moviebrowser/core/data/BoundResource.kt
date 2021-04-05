@@ -47,27 +47,21 @@ abstract class BoundResource<ResultType, RequestType>
             result.removeSource(apiResponse)
             result.removeSource(dbSource)
             when (response) {
-                is ApiSuccessResponse -> {
-                    appExecutors.diskIo().execute {
-                        saveCallResult(processResponse(response))
-                        appExecutors.mainThread().execute {
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
-                            }
-                        }
-                    }
-                }
-                is ApiEmptyResponse -> {
+                is ApiSuccessResponse -> appExecutors.diskIo().execute {
+                    saveCallResult(processResponse(response))
                     appExecutors.mainThread().execute {
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))
                         }
                     }
                 }
-                is ApiErrorResponse -> {
-                    result.addSource(dbSource) { newData ->
-                        setValue(Resource.error(response.error, newData))
+                is ApiEmptyResponse -> appExecutors.mainThread().execute {
+                    result.addSource(loadFromDb()) { newData ->
+                        setValue(Resource.success(newData))
                     }
+                }
+                is ApiErrorResponse -> result.addSource(dbSource) { newData ->
+                    setValue(Resource.error(response.error, newData))
                 }
             }
         }

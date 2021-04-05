@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,32 +11,34 @@
 
     </data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
-        android:name="com.pbartkowiak.mtest.ItemListFragment"
-        android:layout_width="@dimen/item_width"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:baselineAligned="false"
-        android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
-        android:showDividers="middle"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.MovieListActivity">
+        android:weightSum="3">
 
         <com.pbartkowiak.moviebrowser.ui.adapter.MovieCompoundRecyclerView
-            android:layout_width="match_parent"
+            android:id="@+id/movieCompoundRecyclerView"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/space_small"
+            android:paddingEnd="@dimen/space_medium"
             android:scrollbars="vertical"
             app:callback="@{viewModel}"
-            app:modelList="@{viewModel.movieList}" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:modelList="@{viewModel.movieList}"
+            tools:ignore="RtlSymmetry" />
 
         <FrameLayout
             android:id="@+id/item_detail_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3" />
-
+            android:layout_weight="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movieCompoundRecyclerView"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
 </layout>

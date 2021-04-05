@@ -5,9 +5,7 @@
     <string name="activity_movie_browser_empty_list_message">No movies found.</string>
 
     <string name="activity_movie_details_title">Movie details</string>
-    <string name="activity_movie_details_title_formatter">"%1$s"</string>
-
-    <string name="activity_details_description_label">Description:</string>
+    <string name="activity_movie_details_description_label">Description:</string>
 
     <string name="item_movie_image_description">Movie image</string>
 
