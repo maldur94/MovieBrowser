@@ -15,6 +15,5 @@
     <!-- Other -->
     <dimen name="image_size">120dp</dimen>
     <dimen name="progressbar_size">64dp</dimen>
-    <dimen name="item_width">364dp</dimen>
 
 </resources>

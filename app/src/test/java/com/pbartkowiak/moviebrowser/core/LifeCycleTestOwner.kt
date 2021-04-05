@@ -14,10 +14,6 @@ class LifeCycleTestOwner : LifecycleOwner {
         registry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
-    fun onResume() {
-        registry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    }
-
     fun onDestroy() {
         registry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }

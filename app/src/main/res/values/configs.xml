@@ -3,7 +3,6 @@
 
     <!-- Network -->
     <string name="config_network_api_url">https://recruitment-task.futuremind.dev</string>
-    <string name="config_network_header_auth_token">X-Auth-Token</string>
     <integer name="config_network_cache_size_mb">64</integer>
 
     <!-- Database -->

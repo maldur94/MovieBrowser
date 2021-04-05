@@ -17,7 +17,6 @@
         android:theme="@style/Theme.MovieBrowser">
         <activity
             android:name=".ui.MovieListActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/activity_movie_browser_list_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,8 +25,11 @@
         </activity>
         <activity
             android:name=".ui.MovieDetailsActivity"
-            android:label="@string/activity_movie_details_title"
-            android:parentActivityName=".ui.MovieListActivity" />
+            android:label="@string/activity_movie_details_title">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pbartkowiak.moviebrowser.ui.MovieListActivity" />
+        </activity>
     </application>
 
 </manifest>

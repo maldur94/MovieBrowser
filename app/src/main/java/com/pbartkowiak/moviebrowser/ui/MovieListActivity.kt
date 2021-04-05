@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.AppExecutors
 import com.pbartkowiak.moviebrowser.core.NetworkManager
@@ -12,6 +11,7 @@ import com.pbartkowiak.moviebrowser.core.data.DatabaseBuilder
 import com.pbartkowiak.moviebrowser.core.ui.BaseActivity
 import com.pbartkowiak.moviebrowser.data.repository.MovieRepository
 import com.pbartkowiak.moviebrowser.databinding.ActivityMovieBrowserListBinding
+import kotlinx.android.synthetic.main.item_list.*
 
 class MovieListActivity : BaseActivity() {
 
@@ -50,22 +50,9 @@ class MovieListActivity : BaseActivity() {
             microService.movies.observe(this@MovieListActivity, { movies ->
                 onMoviesDownloaded(movies)
             })
-            proceedMovieChosen.observe(this@MovieListActivity, { event ->
-                event.getContentIfNotHandled().let {
-                    if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
-                        val fragment = MovieDetailsFragment.buildFragment(event.peek())
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit()
-                    } else {
-                        startActivity(
-                            MovieDetailsActivity.buildIntent(
-                                this@MovieListActivity,
-                                event.peek()
-                            )
-                        )
-                    }
+            proceedMovieChosen.observe(this@MovieListActivity, {
+                it.getContentIfNotHandled()?.let { event ->
+                    validateMachineTypeAndProceedToMovieDetails(event.peek())
                 }
             })
             showInternetConnectionErrorDialog.observe(this@MovieListActivity, {
@@ -83,6 +70,18 @@ class MovieListActivity : BaseActivity() {
                         .show()
                 }
             })
+        }
+    }
+
+    private fun validateMachineTypeAndProceedToMovieDetails(websiteUrl: String) {
+        if (item_detail_container != null) {
+            val fragment = MovieDetailsFragment.buildFragment(websiteUrl)
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.item_detail_container, fragment)
+                .commit()
+        } else {
+            startActivity(MovieDetailsActivity.buildIntent(this, websiteUrl))
         }
     }
 }

@@ -46,6 +46,11 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy.force "org.antlr:antlr4-runtime:4.7.1"
+    resolutionStrategy.force "org.antlr:antlr4-tool:4.7.1"
+}
+
 jacoco {
     toolVersion = '0.7.4'
 }
@@ -79,9 +84,11 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.novoda:gradle-static-analysis-plugin:1.2'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.3.1'
 
     kapt 'androidx.room:room-compiler:2.2.6'
 
@@ -91,5 +98,4 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
-
 }

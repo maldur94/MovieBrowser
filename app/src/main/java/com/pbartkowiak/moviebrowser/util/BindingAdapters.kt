@@ -4,7 +4,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.ItemCallback
@@ -21,15 +20,9 @@ fun <I> CompoundRecyclerView<I>.setRecyclerViewCallback(callback: ItemCallback<I
 
 @BindingAdapter("imageSrc")
 fun ImageView.loadImage(url: String) {
-    val progressBar = CircularProgressDrawable(context)
-    progressBar.strokeWidth = 5f
-    progressBar.centerRadius = 30f
-    progressBar.setColorSchemeColors(context.getColor(R.color.white))
-    progressBar.start()
-
     Glide.with(context)
-        .load(url)
-        .placeholder(progressBar)
+        .load(url).centerCrop()
+        .placeholder(CircularProgressBar(context).init())
         .error(R.mipmap.ic_no_image_foreground)
         .into(this)
 }

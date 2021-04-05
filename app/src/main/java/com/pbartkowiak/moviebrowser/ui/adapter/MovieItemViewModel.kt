@@ -3,6 +3,7 @@ package com.pbartkowiak.moviebrowser.ui.adapter
 import com.pbartkowiak.moviebrowser.core.ItemCallback
 import com.pbartkowiak.moviebrowser.data.model.Movie
 import com.pbartkowiak.moviebrowser.util.ObservableString
+import com.pbartkowiak.moviebrowser.util.toDateFormat
 
 class MovieItemViewModel(private var callback: ItemCallback<Movie>) {
 
@@ -21,7 +22,7 @@ class MovieItemViewModel(private var callback: ItemCallback<Movie>) {
         this.movie = movie
         title.set(movie.title)
         description.set(movie.description)
-        modificationDate.set(movie.modificationDate)
+        modificationDate.set(movie.modificationDate.toDateFormat())
         imageUrl.set(movie.image_url)
     }
 }
