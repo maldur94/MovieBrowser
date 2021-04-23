@@ -3,6 +3,7 @@ package com.pbartkowiak.moviebrowser.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.ui.BaseActivity
 import com.pbartkowiak.moviebrowser.databinding.ActivityMovieDetailsBinding
@@ -11,11 +12,10 @@ const val WEBSITE_URL_ID_KEY_EXTRA = "website_url_id_key_extra"
 
 class MovieDetailsActivity : BaseActivity() {
 
-    private lateinit var viewModel: MovieDetailsViewModel
+    private val viewModel: MovieDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(MovieDetailsViewModel::class.java)
         viewModel.setupDetailView(intent.extras!!.getString(WEBSITE_URL_ID_KEY_EXTRA))
         ActivityMovieDetailsBinding.inflate(layoutInflater).apply {
             lifecycleOwner = this@MovieDetailsActivity
@@ -29,10 +29,9 @@ class MovieDetailsActivity : BaseActivity() {
 
     private fun attachFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            val fragment = MovieDetailsFragment.buildFragment(viewModel.websiteUrl.get())
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.item_detail_container, fragment)
+                .replace(R.id.item_detail_container, MovieDetailsFragment.buildFragment())
                 .commit()
         }
     }

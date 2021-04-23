@@ -19,8 +19,7 @@ object DatabaseBuilder {
                     context.applicationContext,
                     MovieDatabase::class.java,
                     context.getString(R.string.config_database_name)
-                )
-                    .build()
+                ).build()
                 INSTANCE = instance
             }
             return instance

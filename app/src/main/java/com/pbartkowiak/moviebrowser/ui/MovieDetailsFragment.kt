@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pbartkowiak.moviebrowser.core.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.pbartkowiak.moviebrowser.databinding.FragmentMovieDetailsBinding
 
-class MovieDetailsFragment : BaseFragment() {
+class MovieDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: MovieDetailsViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getViewModel(MovieDetailsViewModel::class.java)
-        viewModel.setupDetailView(arguments!!.getString(WEBSITE_URL_ID_KEY_EXTRA))
-    }
+    private val viewModel: MovieDetailsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,11 +24,6 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     companion object {
-        fun buildFragment(websiteUrl: String) =
-            MovieDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(WEBSITE_URL_ID_KEY_EXTRA, websiteUrl)
-                }
-            }
+        fun buildFragment() = MovieDetailsFragment()
     }
 }

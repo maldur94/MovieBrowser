@@ -3,6 +3,7 @@ package com.pbartkowiak.moviebrowser.ui
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.pbartkowiak.moviebrowser.R
 import com.pbartkowiak.moviebrowser.core.AppExecutors
@@ -14,6 +15,8 @@ import com.pbartkowiak.moviebrowser.databinding.ActivityMovieBrowserListBinding
 import kotlinx.android.synthetic.main.item_list.*
 
 class MovieListActivity : BaseActivity() {
+
+    private val fragmentViewModel: MovieDetailsViewModel by viewModels()
 
     private lateinit var viewModel: MovieListViewModel
 
@@ -75,10 +78,10 @@ class MovieListActivity : BaseActivity() {
 
     private fun validateMachineTypeAndProceedToMovieDetails(websiteUrl: String) {
         if (item_detail_container != null) {
-            val fragment = MovieDetailsFragment.buildFragment(websiteUrl)
+            fragmentViewModel.setupDetailView(websiteUrl)
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.item_detail_container, fragment)
+                .replace(R.id.item_detail_container, MovieDetailsFragment.buildFragment())
                 .commit()
         } else {
             startActivity(MovieDetailsActivity.buildIntent(this, websiteUrl))

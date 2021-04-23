@@ -20,8 +20,4 @@ abstract class BaseActivity : AppCompatActivity() {
         microService: MovieMicroService
     ) = ViewModelProvider(this, MovieListViewModelFactory(resources, microService))
         .get(viewModelClass)
-
-    protected fun <T : ViewModel> getViewModel(
-        viewModelClass: Class<T>
-    ) = ViewModelProvider(this).get(viewModelClass)
 }

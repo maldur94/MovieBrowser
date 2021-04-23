@@ -35,7 +35,7 @@ class MovieListViewModel(private val resources: Resources, val microService: Mov
     private val mutableShowInternetConnectionErrorDialog = MutableLiveData<Event2<Int, String>>()
 
     init {
-        callForMovies()
+        if (movieList.isEmpty()) callForMovies()
     }
 
     override fun onItemClick(item: Movie) {
@@ -43,7 +43,7 @@ class MovieListViewModel(private val resources: Resources, val microService: Mov
     }
 
     fun refreshMovies() {
-        microService.callMovies()
+        mutableRefreshMovies.value = EmptyEvent()
     }
 
     fun callForMovies() {
